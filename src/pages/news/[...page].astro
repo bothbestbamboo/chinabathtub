@@ -20,162 +20,179 @@ const placeholderOptimizedImage = await getImage({ src: placeholderImage, format
 
 // 1. 定义动态路由生成函数
 export async function getStaticPaths({ paginate }) {
-  const posts = await getCollection("blog");
-  posts.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
+	const posts = await getCollection("blog");
+	posts.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
 
-  // 设置每页展示 10 条博文
-  return paginate(posts, { pageSize: 10 });
+	return paginate(posts, { pageSize: 10 });
 }
 
-// 2. 从 Astro.props 获取当前页面的分页数据
 const { page } = Astro.props;
 
-// ============================================================
-// 3. 动态 SEO 标题 & 描述（浴缸网站专属定制）
-// ============================================================
+// 2. 动态 SEO 标题 & 描述
 const pageNum = page.currentPage;
 const totalPages = page.lastPage;
 const PAGE_SIZE = 10;
 
 const pageTitle =
-  pageNum > 1
-    ? `Bathtub Insights & Trends - Page ${pageNum} of ${totalPages} | XC Bath`
-    : "Bathtub Insights & Trends | XC Bath Blog";
+	pageNum > 1
+		? `Bathtub Insights & Trends - Page ${pageNum} of ${totalPages} | XC Bath`
+		: "Bathtub Insights & Trends | XC Bath Blog";
 
 const pageDescription =
-  pageNum > 1
-    ? `Browse page ${pageNum} of XC Bath industry insights: technical guides, installation tips, and product updates for bathtubs, sanitary ware, and bathroom solutions.`
-    : "Technical insights on bathtubs, manufacturing processes, and industry trends from XC Bath — your reliable bathtub factory. Installation guides, material science, and factory updates.";
+	pageNum > 1
+		? `Browse page ${pageNum} of XC Bath industry insights: technical guides, installation tips, and product updates for bathtubs, sanitary ware, and bathroom solutions.`
+		: "Technical insights on bathtubs, manufacturing processes, and industry trends from XC Bath — your reliable bathtub factory. Installation guides, material science, and factory updates.";
 
-// ============================================================
-// 4. ItemList 结构化数据 (帮助搜索引擎理解列表)
-// ============================================================
-const siteUrl = "https://www.chinabathtub.com"; 
+// 3. ItemList 结构化数据（修复 post.slug -> post.id）
+const siteUrl = "https://www.chinabathtub.com";
 const itemListSchema = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: pageNum > 1 ? `Bathtub Insights & Trends - Page ${pageNum}` : "Bathtub Insights & Trends",
-  numberOfItems: page.data.length,
-  itemListElement: page.data.map((post: any, index: number) => ({
-    "@type": "ListItem",
-    position: (pageNum - 1) * PAGE_SIZE + index + 1,
-    url: `${siteUrl}/news/${post.slug}/`,
-    name: post.data.title,
-  })),
+	"@context": "https://schema.org",
+	"@type": "ItemList",
+	name: pageNum > 1 ? `Bathtub Insights & Trends - Page ${pageNum}` : "Bathtub Insights & Trends",
+	numberOfItems: page.data.length,
+	itemListElement: page.data.map((post: any, index: number) => ({
+		"@type": "ListItem",
+		position: (pageNum - 1) * PAGE_SIZE + index + 1,
+		url: `${siteUrl}/news/${post.id}/`,
+		name: post.data.title,
+	})),
 };
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription} heroImage={placeholderOptimizedImage}>
-    <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
+	<script slot="schema" is:inline type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />
 
-    <Banner 
-        title="Bathtub Insights & Trends" 
-        subtitle="Deep dives into performance standards, material science, and technical updates straight from our factory." 
-        image={placeholderOptimizedImage} 
-        alt="XC Bath factory technical updates and industry insights banner" 
-        imageAlt="XC Bath factory technical updates and industry insights banner" 
-    />
+	<Banner
+		title="Bathtub Insights & Trends"
+		subtitle="Deep dives into performance standards, material science, and technical updates straight from our factory."
+		image={placeholderOptimizedImage}
+	/>
 
-    <!-- 传入当前页的文章列表 page.data -->
-    <BlogRecentArticlesWithSidebar posts={page.data} />
+	<BlogRecentArticlesWithSidebar posts={page.data} />
 
-    <!-- 3. 分页导航按钮 UI -->
-    <nav class="pagination-container" aria-label="Blog pagination">
-        <div class="pagination">
-            <!-- 上一页按钮 -->
-            {page.url.prev ? (
-                <a href={page.url.prev} class="pagination-btn">
-                    &laquo; Previous
-                </a>
-            ) : (
-                <span class="pagination-btn disabled">&laquo; Previous</span>
-            )}
+	{
+		totalPages > 1 && (
+			<nav class="pagination-container" aria-label="Blog pagination">
+				<div class="pagination">
+					{page.url.prev ? (
+						<a href={page.url.prev} class="pagination-btn">
+							&laquo; Previous
+						</a>
+					) : (
+						<span class="pagination-btn disabled">&laquo; Previous</span>
+					)}
 
-            <!-- 页码数字列表 -->
-            <div class="pagination-numbers">
-                {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => {
-                    const href = pageNum === 1 ? "/news" : `/news/${pageNum}`;
-                    const isCurrent = page.currentPage === pageNum;
-                    return (
-                        <a 
-                            href={href} 
-                            class={`pagination-number ${isCurrent ? "active" : ""}`}
-                            aria-current={isCurrent ? "page" : undefined}
-                        >
-                            {pageNum}
-                        </a>
-                    );
-                })}
-            </div>
+					<div class="pagination-numbers">
+						{Array.from({ length: page.lastPage }, (_, i) => i + 1).map((num) => {
+							const href = num === 1 ? "/news/" : `/news/${num}/`;
+							const isCurrent = page.currentPage === num;
+							return (
+								<a
+									href={href}
+									class={`pagination-number ${isCurrent ? "active" : ""}`}
+									aria-current={isCurrent ? "page" : undefined}
+								>
+									{num}
+								</a>
+							);
+						})}
+					</div>
 
-            <!-- 下一页按钮 -->
-            {page.url.next ? (
-                <a href={page.url.next} class="pagination-btn">
-                    Next &raquo;
-                </a>
-            ) : (
-                <span class="pagination-btn disabled">Next &raquo;</span>
-            )}
-        </div>
-    </nav>
+					{page.url.next ? (
+						<a href={page.url.next} class="pagination-btn">
+							Next &raquo;
+						</a>
+					) : (
+						<span class="pagination-btn disabled">Next &raquo;</span>
+					)}
+				</div>
+			</nav>
+		)
+	}
 
-    <CTA />
+	<CTA />
 </BaseLayout>
 
-<style>
-  .pagination-container {
-      display: flex;
-      justify-content: center;
-      margin: 3rem 0;
-  }
+<style lang="less">
+	.pagination-container {
+		display: flex;
+		justify-content: center;
+		margin: 3rem 0;
+	}
 
-  .pagination {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem; /* 上一页、页码组、下一页之间的整体间距 */
-  }
+	.pagination {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+	}
 
-  /* 1和2等数字页码之间的专属间距 */
-  .pagination-numbers {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem; /* 拉开 1 和 2 之间的距离 */
-  }
+	.pagination-numbers {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
 
-  .pagination-btn, .pagination-number {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.5rem 0.85rem;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      color: #334155;
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: all 0.2s ease;
-      background-color: #fff;
-  }
+	.pagination-btn,
+	.pagination-number {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		padding: 0.5rem 0.85rem;
+		border: 1px solid #e2e8f0;
+		border-radius: 6px;
+		color: #334155;
+		text-decoration: none;
+		font-size: 0.9rem;
+		font-weight: 500;
+		transition: all 0.2s ease;
+		background-color: #fff;
+	}
 
-  .pagination-btn:hover:not(.disabled),
-  .pagination-number:hover:not(.active) {
-      border-color: #004B87;
-      color: #000;
-      background-color: #f7fee7;
-  }
+	.pagination-btn:hover:not(.disabled),
+	.pagination-number:hover:not(.active) {
+		border-color: var(--primary, #004B87);
+		color: var(--primary, #004B87);
+		background-color: #f0f5fa;
+	}
 
-  .pagination-number.active {
-      background-color: #004B87; 
-      color: #000000;            
-      border-color: #004B87;
-      font-weight: 600;
-  }
+	.pagination-number.active {
+		background-color: var(--primary, #004B87);
+		color: #ffffff;
+		border-color: var(--primary, #004B87);
+		font-weight: 600;
+	}
 
-  /* 禁用状态 */
-  .pagination-btn.disabled {
-      color: #cbd5e1;
-      border-color: #f1f5f9;
-      cursor: not-allowed;
-      background-color: #f8fafc;
-  }
+	.pagination-btn.disabled {
+		color: #cbd5e1;
+		border-color: #f1f5f9;
+		cursor: not-allowed;
+		background-color: #f8fafc;
+	}
+
+	body.dark-mode {
+		.pagination-btn,
+		.pagination-number {
+			background-color: #1e293b;
+			border-color: #334155;
+			color: #cbd5e1;
+
+			&:hover:not(.disabled):not(.active) {
+				background-color: #0f172a;
+				color: #ffffff;
+				border-color: #475569;
+			}
+		}
+
+		.pagination-number.active {
+			background-color: var(--primary, #004B87);
+			color: #ffffff;
+			border-color: var(--primary, #004B87);
+		}
+
+		.pagination-btn.disabled {
+			background-color: #0f172a;
+			color: #475569;
+			border-color: #1e293b;
+		}
+	}
 </style>

@@ -1,97 +1,62 @@
----
-// Utils
-import { Icon } from "astro-icon/components";
----
-
 <section id="reviews">
 	<div class="container">
 		<div class="review">
-			<picture>
-				<div class="avatar-initials profile">MV</div>
-			</picture>
+			<div class="avatar-initials profile" aria-hidden="true">MV</div>
 			<p>"We sourced freestanding bathtubs and shower enclosures from XC Bath for a luxury hotel project. The acrylic quality is incredibly solid, and the glossy finish looks stunning. The packaging was extremely secure for ocean freight, and our clients are absolutely thrilled with the final result!"</p>
 			<div class="star-group">
 				<span class="name">Marcus Vance<span class="desc">Interior Architect & Designer</span></span>
-				<picture>
-					<img src="/assets/favicons/stars.svg" alt="5 out of 5 stars" width="91" height="15" />
-				</picture>
+				<img src="/assets/favicons/stars.svg" alt="5 out of 5 stars" width="91" height="15" />
 			</div>
 		</div>
-		
+
 		<div class="review">
-			<picture>
-				<div class="avatar-initials profile">ER</div>
-			</picture>
+			<div class="avatar-initials profile" aria-hidden="true">ER</div>
 			<p>"Finding reliable sanitary ware suppliers with consistent quality is a challenge, but XC Bath delivered exactly what we needed. Their frameless shower doors with tempered glass have fantastic build quality and are perfectly stable. The shipping was smooth, making it a great experience."</p>
 			<div class="star-group">
 				<span class="name">Elena Rostova<span class="desc">Landscape Contractor</span></span>
-				<picture>
-					<img src="/assets/favicons/stars.svg" alt="5 out of 5 stars" width="91" height="15" />
-				</picture>
+				<img src="/assets/favicons/stars.svg" alt="5 out of 5 stars" width="91" height="15" />
 			</div>
 		</div>
-		
+
 		<div class="review">
-			<picture>
-				<div class="avatar-initials profile">DS</div>
-			</picture>
+			<div class="avatar-initials profile" aria-hidden="true">DS</div>
 			<p>"As an interior contractor, we demand precise dimensions and flawless surfaces. XC Bath’s bathroom vanities are exceptionally well-built, featuring moisture-resistant materials and soft-close hardware that our clients love. They are perfect for our premium residential projects."</p>
 			<div class="star-group">
 				<span class="name">David Sterling<span class="desc">Custom Interior Contractor</span></span>
-				<picture>
-					<img src="/assets/favicons/stars.svg" alt="5 out of 5 stars" width="91" height="15" />
-				</picture>
+				<img src="/assets/favicons/stars.svg" alt="5 out of 5 stars" width="91" height="15" />
 			</div>
 		</div>
-		
+
 		<div class="review">
-			<picture>
-				<div class="avatar-initials profile">JM</div>
-			</picture>
+			<div class="avatar-initials profile" aria-hidden="true">JM</div>
 			<p>"Working directly with XC Bath has been a seamless experience. From strict quality control on their whirlpool bathtubs to secure sea freight packaging, their factory team handles everything professionally. They are our go-to long-term partner for bulk sanitary ware supplies."</p>
 			<div class="star-group">
 				<span class="name">Julian Mercer<span class="desc">Building Materials Wholesaler</span></span>
-				<picture>
-					<img src="/assets/favicons/stars.svg" alt="5 out of 5 stars" width="91" height="15" />
-				</picture>
+				<img src="/assets/favicons/stars.svg" alt="5 out of 5 stars" width="91" height="15" />
 			</div>
 		</div>
-		
+
 		<div class="review">
-			<picture>
-				<div class="avatar-initials profile">ST</div>
-			</picture>
+			<div class="avatar-initials profile" aria-hidden="true">ST</div>
 			<p>"We wanted a luxurious, spa-like feel for our master bathroom renovation. The freestanding tub we ordered from XC Bath looks incredibly elegant, provides amazing heat retention, and feels incredibly solid. It gives us total peace of mind knowing it's highly durable."</p>
 			<div class="star-group">
 				<span class="name">Sarah & Tom B.<span class="desc">Homeowner</span></span>
-				<picture>
-					<img src="/assets/favicons/stars.svg" alt="5 out of 5 stars" width="91" height="15" />
-				</picture>
+				<img src="/assets/favicons/stars.svg" alt="5 out of 5 stars" width="91" height="15" />
 			</div>
 		</div>
-		
+
 		<div class="review">
-			<picture>
-				<div class="avatar-initials profile">AT</div>
-			</picture>
+			<div class="avatar-initials profile" aria-hidden="true">AT</div>
 			<p>"We needed specific custom dimensions and precision cutting for a massive commercial hotel fit-out. XC Bath met all our technical specifications for shower enclosures with great accuracy and delivered on time. Highly recommended for commercial projects!"</p>
 			<div class="star-group">
 				<span class="name">Akira Tanaka<span class="desc">Commercial Project Manager</span></span>
-				<picture>
-					<img src="/assets/favicons/stars.svg" alt="5 out of 5 stars" width="91" height="15" />
-				</picture>
+				<img src="/assets/favicons/stars.svg" alt="5 out of 5 stars" width="91" height="15" />
 			</div>
 		</div>
 	</div>
 </section>
 
 <style lang="less">
-	/* PAGE-SPECIFIC STYLES FOR THE REVIEWS PAGE */
-
-	/*-- -------------------------- -->
-<---           Reviews          -->
-<--- -------------------------- -*/
-
 	/* Mobile */
 	@media only screen and (min-width: 0em) {
 		#reviews {
@@ -116,20 +81,9 @@ import { Icon } from "astro-icon/components";
 				display: flex;
 				flex-direction: column;
 				position: relative;
+
 				&:last-of-type {
 					margin-bottom: 0;
-				}
-
-				.profile {
-					width: (99/16rem);
-					height: (99/16rem);
-					margin-bottom: (16/16rem);
-					margin-left: 0;
-					border-radius: 50%;
-					display: block;
-					position: absolute;
-					top: (-51/16rem);
-					left: (30/16rem);
 				}
 
 				p {
@@ -206,6 +160,8 @@ import { Icon } from "astro-icon/components";
 					background: var(--medium);
 
 					.star-group {
+						border-top-color: rgba(255, 255, 255, 0.12);
+
 						.name {
 							color: #fff;
 						}
@@ -219,27 +175,25 @@ import { Icon } from "astro-icon/components";
 			}
 		}
 	}
-	.avatar-initials {
-    width: (99/16rem);
-    height: (99/16rem);
-    background-color: #2b5a41; /* 品牌绿背景 */
-    color: #ffffff;
-    font-size: (32/16rem);
-    font-weight: 700;
-    
-    /* 核心居中控制 */
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    line-height: 1 !important;
-    text-align: center;
-    margin: 0 !important; /* 清除原有 margin-left 的影响 */
 
-    border-radius: 50%;
-    position: absolute;
-    top: (-51/16rem);
-    left: (30/16rem);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-}
+	.avatar-initials {
+		width: (99/16rem);
+		height: (99/16rem);
+		background-color: var(--primary, #004B87);
+		color: #ffffff;
+		font-size: (32/16rem);
+		font-weight: 700;
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+		line-height: 1 !important;
+		text-align: center;
+		margin: 0 !important;
+		border-radius: 50%;
+		position: absolute;
+		top: (-51/16rem);
+		left: (30/16rem);
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+		box-sizing: border-box;
+	}
 </style>

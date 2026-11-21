@@ -33,9 +33,12 @@ const isProductPage =
         lowerTags.includes("cabinets"));
 
 // 安全获取图片 URL
-const imageUrl = image && image.src.startsWith("http")
-    ? image.src
-    : (image ? Astro.url.origin + image.src : Astro.url.origin);
+const rawImageSrc = typeof image === "string" ? image : image?.src || "";
+const imageUrl = rawImageSrc
+	? rawImageSrc.startsWith("http")
+		? rawImageSrc
+		: Astro.url.origin + rawImageSrc
+	: Astro.url.origin;
 
 // 🌟 核心逻辑：动态判断生成哪种 Schema
 let finalSchema = {};
@@ -108,16 +111,14 @@ if (isProductPage) {
                     </header>
 
                     {image && (
-                        <picture class="blog-mainImage">
-                            <Image
-                                src={image}
-                                alt={imageAlt || title}
-                                width="795"
-                                height="400"
-                                decoding="async"
-                            />
-                        </picture>
-                    )}
+	<picture class="blog-mainImage">
+		{typeof image === "string" ? (
+			<img src={image} alt={imageAlt || title} width="795" height="400" decoding="async" />
+		) : (
+			<Image src={image} alt={imageAlt || title} width="795" height="400" decoding="async" />
+		)}
+	</picture>
+)}
 
                     <div class="blog-sidebar_widget-wrapper cs-hide-on-desktop">
                         <TableOfContents headings={headings} levels={3} />
@@ -300,7 +301,7 @@ if (isProductPage) {
         .blog-dot {
             width: 3px;
             height: 3px;
-            background-color: #fe4f70;
+            background-color: #C5A059;
             border-radius: 50%;
             display: block;
         }

@@ -1,17 +1,18 @@
 import { SITE, BUSINESS } from "@data/client";
 
 export function getLocalBusinessSchema(origin) {
-	const sameAs = [];
-	if (BUSINESS.socials?.facebook) sameAs.push(BUSINESS.socials.facebook);
-	if (BUSINESS.socials?.instagram) sameAs.push(BUSINESS.socials.instagram);
+	const baseUrl = origin || SITE.url;
+	const sameAs = Object.values(BUSINESS.socials || {}).filter(
+		(url) => typeof url === "string" && /^https?:\/\//i.test(url)
+	);
 
-	return {
+	const schema = {
 		"@context": "https://schema.org",
 		"@type": ["LocalBusiness", "WebSite"],
 		"name": BUSINESS.name,
 		"url": SITE.url,
-		"logo": origin + BUSINESS.logo,
-		"image": origin + BUSINESS.logo,
+		"logo": baseUrl + BUSINESS.logo,
+		"image": baseUrl + BUSINESS.logo,
 		"email": BUSINESS.email,
 		"telephone": BUSINESS.phoneForTel,
 		"address": {
@@ -21,7 +22,12 @@ export function getLocalBusinessSchema(origin) {
 			"addressRegion": BUSINESS.address.state,
 			"postalCode": BUSINESS.address.zip,
 		},
-		"sameAs": sameAs,
 		"inLanguage": SITE.locale,
 	};
+
+	if (sameAs.length > 0) {
+		schema.sameAs = sameAs;
+	}
+
+	return schema;
 }

@@ -1,6 +1,5 @@
 ---
 // Utils
-import { Icon } from "astro-icon/components";
 import { getCurrentYear } from "@js/utils";
 
 // Data
@@ -13,16 +12,12 @@ const currentYear = getCurrentYear();
 <footer id="footer">
 	<div class="container">
 		<div class="left-section">
-			<a
-				class="logo"
-				href="/"
-				aria-label="Return to [Company Name] Home page"
-			>
+			<a class="logo" href="/" aria-label="Return to XC Bath Home page">
 				<img src="/assets/favicons/logo-white.svg" alt="XC Bath" width="264" height="78" />
 			</a>
 			<p>
-	XC Bath is a professional sanitary ware manufacturer specializing in luxury freestanding bathtubs, whirlpools, and modern shower enclosures, dedicated to delivering high-quality and innovative bathroom solutions worldwide.
-</p>
+				XC Bath is a professional sanitary ware manufacturer specializing in luxury freestanding bathtubs, whirlpools, and modern shower enclosures, dedicated to delivering high-quality and innovative bathroom solutions worldwide.
+			</p>
 		</div>
 		<div class="right-section">
 			<div class="lists">
@@ -54,9 +49,7 @@ const currentYear = getCurrentYear();
 						<a href="/contact/">
 							{BUSINESS.address.lineOne}<br />
 							{BUSINESS.address.lineTwo}<br />
-							{
-								`${BUSINESS.address.city} ${BUSINESS.address.state} ${BUSINESS.address.zip}`
-							}
+							{`${BUSINESS.address.city} ${BUSINESS.address.state} ${BUSINESS.address.zip}`}
 						</a>
 					</li>
 					<li>
@@ -74,7 +67,7 @@ const currentYear = getCurrentYear();
 
 	<div class="credit">
 		<span>All Rights Reserved</span>
-		<a href="/" target="_blank" rel="noopener"> XC Bath </a>
+		<a href="/"> XC Bath </a>
 		<span class="copyright"> Copyright {currentYear} - Your Reliable Bathtub Supplier</span>
 	</div>
 </footer>
@@ -111,7 +104,7 @@ const currentYear = getCurrentYear();
 					line-height: 27/14;
 					text-align: center;
 					width: 100%;
-					width: 307/14rem;
+					max-width: 307/14rem;
 					margin: auto;
 					color: #fff;
 					opacity: 0.9;
@@ -161,10 +154,11 @@ const currentYear = getCurrentYear();
 								color: #fff;
 								transition: color 0.3s;
 								&:hover {
-									color: var(--primary);
+									color: var(--secondary);
 								}
 							}
 						}
+
 						h2 {
 							font-size: (18/16rem);
 							font-weight: bold;
@@ -178,7 +172,7 @@ const currentYear = getCurrentYear();
 								content: "";
 								width: (97/16rem);
 								height: (2/16rem);
-								background: var(--primary);
+								background: var(--secondary);
 								opacity: 1;
 								display: block;
 								position: absolute;
@@ -187,18 +181,6 @@ const currentYear = getCurrentYear();
 							}
 						}
 					}
-				}
-
-				.buttons {
-					display: flex;
-					justify-content: center;
-				}
-
-				.cs-button-solid {
-					width: (250/16rem);
-					height: (53/16rem);
-					margin: 0;
-					padding-top: (3/16rem);
 				}
 			}
 
@@ -214,7 +196,7 @@ const currentYear = getCurrentYear();
 				a {
 					font-size: (16/16rem);
 					text-decoration: none;
-					color: var(--primary);
+					color: var(--secondary);
 
 					&:hover {
 						text-decoration: underline;
@@ -267,7 +249,6 @@ const currentYear = getCurrentYear();
 				margin: 0;
 				.lists {
 					width: 96%;
-					max-width: (769/16rem);
 					max-width: initial;
 					margin: 0;
 
@@ -288,7 +269,7 @@ const currentYear = getCurrentYear();
 									content: "";
 									width: 0%;
 									height: (2/16rem);
-									background: var(--primary);
+									background: var(--secondary);
 									opacity: 1;
 									display: block;
 									position: absolute;
@@ -305,10 +286,6 @@ const currentYear = getCurrentYear();
 							}
 						}
 					}
-				}
-
-				.buttons {
-					justify-content: flex-start;
 				}
 			}
 

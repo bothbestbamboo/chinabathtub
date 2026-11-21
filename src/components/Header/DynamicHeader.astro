@@ -158,22 +158,19 @@ import DarkModeToggle from "@components/DarkModeToggle/DarkModeToggle.astro";
 					</li>
 
 					<li class="cs-li">
-						<a
-							href="/news/"
-							class:list={[
-								"cs-li-link",
-								{
-									"cs-active":
-										Astro.url.pathname === "/news/",
-								},
-							]}
-							aria-current={Astro.url.pathname === "/news/"
-								? "page"
-								: undefined}
-						>
-							Blog
-						</a>
-					</li>
+	<a
+		href="/news/"
+		class:list={[
+			"cs-li-link",
+			{
+				"cs-active": Astro.url.pathname.startsWith("/news"),
+			},
+		]}
+		aria-current={Astro.url.pathname.startsWith("/news") ? "page" : undefined}
+	>
+		Blog
+	</a>
+</li>
 
 					<li class="cs-li cs-hide-on-desktop">
 						<a

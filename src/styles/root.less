@@ -1,21 +1,51 @@
 /*-- -------------------------- -->
+<---    Local Fonts (Roboto)    -->
+<--- -------------------------- -*/
+
+@font-face {
+	font-family: "Roboto";
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src:
+		url("/assets/fonts/roboto-v29-latin-regular.woff2") format("woff2"),
+		url("/assets/fonts/roboto-v29-latin-regular.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Roboto";
+	font-style: normal;
+	font-weight: 700;
+	font-display: swap;
+	src:
+		url("/assets/fonts/roboto-v29-latin-700.woff2") format("woff2"),
+		url("/assets/fonts/roboto-v29-latin-700.woff") format("woff");
+}
+
+@font-face {
+	font-family: "Roboto";
+	font-style: normal;
+	font-weight: 900;
+	font-display: swap;
+	src:
+		url("/assets/fonts/roboto-v29-latin-900.woff2") format("woff2"),
+		url("/assets/fonts/roboto-v29-latin-900.woff") format("woff");
+}
+
+/*-- -------------------------- -->
 <---         CSS Reset          -->
 <--- -------------------------- -*/
 
-/* Modern CSS Reset - Based on Josh Comeau's reset */
-/* 1. Use a more-intuitive box-sizing model */
 *,
 *::before,
 *::after {
 	box-sizing: border-box;
 }
 
-/* 2. Remove default margin */
 * {
 	margin: 0;
 }
 
-/* 3. Enable keyword animations */
 @media (prefers-reduced-motion: no-preference) {
 	html {
 		interpolate-size: allow-keywords;
@@ -23,13 +53,10 @@
 }
 
 body {
-	/* 4. Add accessible line-height */
 	line-height: 1.5;
-	/* 5. Improve text rendering */
 	-webkit-font-smoothing: antialiased;
 }
 
-/* 6. Improve media defaults */
 img,
 picture,
 video,
@@ -39,7 +66,6 @@ svg {
 	max-width: 100%;
 }
 
-/* 7. Inherit fonts for form controls */
 input,
 button,
 textarea,
@@ -47,7 +73,6 @@ select {
 	font: inherit;
 }
 
-/* 8. Avoid text overflows */
 p,
 h1,
 h2,
@@ -58,7 +83,6 @@ h6 {
 	overflow-wrap: break-word;
 }
 
-/* 9. Improve line wrapping */
 p {
 	text-wrap: pretty;
 }
@@ -71,9 +95,6 @@ h6 {
 	text-wrap: balance;
 }
 
-/*
-  10. Create a root stacking context
-*/
 #root,
 #__next {
 	isolation: isolate;
@@ -85,10 +106,12 @@ h6 {
 
 @media only screen and (min-width: 0em) {
 	:root {
+		--font-primary: "Roboto", Arial, sans-serif;
+
 		// Website colors
-		--primary: #004B87;      /* 修改：深海蓝 */
-		--primaryLight: #3374a8; /* 修改：浅一点的蓝色 */
-		--secondary: #C5A059;    /* 修改：香槟金 */
+		--primary: #004B87;      /* 深海蓝 */
+		--primaryLight: #3374a8; /* 浅蓝色 */
+		--secondary: #C5A059;    /* 香槟金 */
 		--secondaryLight: #001f3f;
 		--headerColor: #1a1a1a;
 		--bodyTextColor: #4e4b66;
@@ -152,14 +175,13 @@ button {
 <---   Typography Helpers       -->
 <--- -------------------------- -*/
 
-// Text styles - can be replaced using CodeStitch's "Content Flair" Stitches
 .cs-topper {
 	font-size: var(--topperFontSize);
 	font-weight: 700;
 	line-height: 1.2em;
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
-	color: var(--secondary); /* 这里会自动变成香槟金 */
+	color: var(--secondary);
 	display: block;
 }
 
@@ -185,7 +207,6 @@ button {
 <--- -------------------------- -*/
 
 @media only screen and (min-width: 0em) {
-	// Button - can be replaced using CodeStitch's "Button" Stitches
 	.cs-button-solid {
 		font-size: (16/16rem);
 		font-weight: bold;
@@ -196,9 +217,7 @@ button {
 		width: auto;
 		height: (50/16rem);
 		padding: 0 (30/16rem);
-
-		// Transition Properties
-		color: #fff; /* 修改：文字为白色 */
+		color: #fff;
 		background-color: var(--primary);
 		display: inline-block;
 		position: relative;
@@ -215,8 +234,6 @@ button {
 
 		&:before {
 			content: "";
-
-			//Transition properties
 			width: 0;
 			height: 100%;
 			background-color: #000;
@@ -236,13 +253,12 @@ button {
 		position: relative;
 	}
 
-	// Skip to main content link - accessible to keyboard users and screen readers
 	.skip {
 		position: absolute;
 		top: 0;
 		left: 0;
 		transform: translateY(-100%);
-		z-index: 10001; // Above header (10000)
+		z-index: 10001;
 		opacity: 0;
 		overflow: hidden;
 		transition:
@@ -254,7 +270,7 @@ button {
 			opacity: 1;
 			padding: 1rem 1.5rem;
 			background-color: var(--primary);
-			color: #fff; /* 修改：保证跳转按钮可视 */
+			color: #fff;
 			text-decoration: none;
 			font-weight: 700;
 			outline: 2px solid var(--primary);
@@ -267,7 +283,6 @@ button {
 <---      Utility Classes       -->
 <--- -------------------------- -*/
 
-// prevents icons from shrinking in flex containers
 [data-icon] {
 	flex-shrink: 0;
 }
@@ -284,7 +299,6 @@ button {
 <---   Responsive Adjustments   -->
 <--- -------------------------- -*/
 
-/* Desktop - 1024px */
 @media only screen and (min-width: 64rem) {
 	.cs-hide-on-mobile {
 		display: block;
@@ -295,7 +309,6 @@ button {
 	}
 }
 
-/* Scale full website with the viewport width */
 @media only screen and (min-width: 2000px) {
 	body,
 	html {

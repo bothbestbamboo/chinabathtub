@@ -1,11 +1,70 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "@layouts/BaseLayout.astro";
 ---
 
 <BaseLayout title="404 - Page Not Found" description="The page you are looking for does not exist.">
-  <main style="text-align: center; padding: 5rem 1rem;">
-    <h1>Oops! Page Not Found</h1>
-    <p>The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.</p>
-    <a href="/" style="color: blue; text-decoration: underline;">Back to Homepage</a>
-  </main>
+	<section class="not-found-section">
+		<div class="not-found-container">
+			<span class="cs-topper">Error 404</span>
+			<h1 class="cs-title">Oops! Page Not Found</h1>
+			<p class="cs-text">
+				The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+			</p>
+			<div class="not-found-actions">
+				<a href="/" class="cs-button-solid">Back to Homepage</a>
+				<a href="/product/" class="not-found-secondary">Browse Products</a>
+			</div>
+		</div>
+	</section>
 </BaseLayout>
+
+<style lang="less">
+	.not-found-section {
+		padding: clamp(9rem, 15vw, 12rem) 1rem clamp(5rem, 8vw, 7rem);
+		text-align: center;
+	}
+
+	.not-found-container {
+		max-width: 640px;
+		margin: 0 auto;
+	}
+
+	.cs-text {
+		margin-bottom: 2rem;
+	}
+
+	.not-found-actions {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.not-found-secondary {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		height: (50/16rem);
+		padding: 0 (28/16rem);
+		border: 1px solid var(--primary);
+		color: var(--primary);
+		font-weight: 700;
+		text-transform: uppercase;
+		text-decoration: none;
+		transition: all 0.25s ease;
+
+		&:hover {
+			background-color: var(--secondary);
+			border-color: var(--secondary);
+			color: #ffffff;
+		}
+	}
+
+	body.dark-mode {
+		.not-found-secondary {
+			color: #ffffff;
+			border-color: var(--secondary);
+		}
+	}
+</style>

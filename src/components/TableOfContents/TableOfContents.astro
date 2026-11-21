@@ -17,60 +17,57 @@ interface Props {
 const { headings, levels = 2 } = Astro.props as Props;
 
 const filteredHeadings = headings.filter(
-    (heading) => heading.depth <= levels && heading.text && heading.text.trim() !== ""
+	(heading) => heading.depth <= levels && heading.text && heading.text.trim() !== ""
 );
 
 const getIconName = (text: string) => {
-    const t = text.toLowerCase();
-    if (t.includes("overview") || t.includes("philosophy")) return "ph:lightbulb";
-    if (t.includes("technical") || t.includes("specification")) return "ph:gear";
-    if (t.includes("advantage") || t.includes("craftsmanship")) return "ph:star";
-    if (t.includes("manufacturing") || t.includes("process")) return "ph:factory";
-    if (t.includes("detail") || t.includes("finishing")) return "ph:magnifying-glass";
-    if (t.includes("application") || t.includes("environment")) return "ph:buildings";
-    if (t.includes("packaging") || t.includes("ordering") || t.includes("bulk order")) return "ph:package";
-    return "ph:file-text"; 
+	const t = text.toLowerCase();
+	if (t.includes("overview") || t.includes("philosophy")) return "ph:lightbulb";
+	if (t.includes("technical") || t.includes("specification")) return "ph:gear";
+	if (t.includes("advantage") || t.includes("craftsmanship")) return "ph:star";
+	if (t.includes("manufacturing") || t.includes("process")) return "ph:factory";
+	if (t.includes("detail") || t.includes("finishing")) return "ph:magnifying-glass";
+	if (t.includes("application") || t.includes("environment")) return "ph:buildings";
+	if (t.includes("packaging") || t.includes("ordering") || t.includes("bulk order")) return "ph:package";
+	return "ph:file-text";
 };
 ---
 
-	<h3 class="blog-sidebar_widget-header">Quick Navigation</h3>
-	<ul class="cs-toc-list">
-		{
-			filteredHeadings.map((heading) => (
-				<li class={`cs-toc-item depth-${heading.depth}`}>
-					<a href={`#${heading.slug}`} class="cs-toc-link">
-                        <Icon name={getIconName(heading.text)} class="cs-toc-icon" width="16" height="16" />
-						<span class="cs-toc-text">{heading.text}</span>
-					</a>
-				</li>
-			))
-		}
-	</ul>
+<h3 class="blog-sidebar_widget-header">Quick Navigation</h3>
+<ul class="cs-toc-list">
+	{
+		filteredHeadings.map((heading) => (
+			<li class={`cs-toc-item depth-${heading.depth}`}>
+				<a href={`#${heading.slug}`} class="cs-toc-link">
+					<Icon name={getIconName(heading.text)} class="cs-toc-icon" width="16" height="16" />
+					<span class="cs-toc-text">{heading.text}</span>
+				</a>
+			</li>
+		))
+	}
+</ul>
 
 <style lang="less">
-	.cs-toc-container {
-		border-radius: 0.5em;
-		border: 1px solid #ebebeb;
-        padding: 2.1875em 1.875em;
-        margin-bottom: 2rem;
-	}
-
 	.cs-toc-list {
 		margin-top: 1rem;
 		font-size: 0.875rem;
 		display: flex;
 		flex-direction: column;
-		gap: 14px !important;
+		gap: 14px !important; /* 行与行间距：如需微调只需改这个数字（如 10px 或 12px） */
 		list-style: none !important;
-        padding-left: 0 !important; 
+		padding-left: 0 !important;
 	}
 
 	.cs-toc-item {
 		position: relative;
 		transition: all 0.2s ease;
-		
-		&.depth-2 { margin-left: 0 !important; }
-		&.depth-3 { margin-left: 14px !important; }
+
+		&.depth-2 {
+			margin-left: 0 !important;
+		}
+		&.depth-3 {
+			margin-left: 14px !important;
+		}
 	}
 
 	.cs-toc-link {
@@ -78,112 +75,116 @@ const getIconName = (text: string) => {
 		transition: all 0.2s ease-in-out;
 		color: var(--bodyTextColor);
 		text-decoration: none !important;
-        display: flex !important;
-        align-items: flex-start; 
-        gap: 8px; 
-        width: 100%;
-        padding-left: 0 !important; 
+		display: flex !important;
+		align-items: flex-start;
+		gap: 8px;
+		width: 100%;
+		padding-left: 0 !important;
 
-        /* 🌟 线条外挂到文字左侧的留白处 */
-        &::before {
-            content: "";
-            position: absolute;
-            left: -12px; /* 🚨 向左外挂 12px，完美拉开间距且不占位 */
-            top: 5px;
-            bottom: 5px;
-            width: 2px;
-            background-color: var(--primaryLight, #9cc813); 
-            border-radius: 2px;
-            opacity: 0; 
-            transition: all 0.2s ease;
-        }
+		/* 竖线保持原有定位不动 */
+		&::before {
+			content: "";
+			position: absolute;
+			left: -12px;
+			top: 5px;
+			bottom: 5px;
+			width: 2px;
+			background-color: var(--primaryLight, #3374a8);
+			border-radius: 2px;
+			opacity: 0;
+			transition: all 0.2s ease;
+		}
 
 		&:hover::before,
 		&.cs-toc-current::before {
 			opacity: 1;
 		}
 
-        .cs-toc-text {
-            flex: 1; 
-            font-size: 14px !important;
-            line-height: 1.4 !important;
-            margin-top: 1px;
-            transition: color 0.2s ease;
-        }
+		.cs-toc-text {
+			flex: 1;
+			font-size: 14px !important;
+			line-height: 1.4 !important;
+			margin-top: 1px;
+			transition: color 0.2s ease;
+		}
 
 		&.cs-toc-current {
-			.cs-toc-text { font-weight: 700 !important; }
-            .cs-toc-icon { color: var(--primaryLight); }
+			.cs-toc-text {
+				font-weight: 700 !important;
+			}
+			.cs-toc-icon {
+				color: var(--primaryLight);
+			}
 		}
-		
+
 		&:hover {
-            .cs-toc-text { color: var(--primaryLight) !important; }
-            .cs-toc-icon { color: var(--primaryLight); }
+			.cs-toc-text {
+				color: var(--primaryLight) !important;
+			}
+			.cs-toc-icon {
+				color: var(--primaryLight);
+			}
 		}
 	}
 
-    .cs-toc-item.depth-3 .cs-toc-text {
-        font-size: 13px !important; 
-        color: #6b7280 !important; 
-    }
+	.cs-toc-item.depth-3 .cs-toc-text {
+		font-size: 13px !important;
+		color: #6b7280 !important;
+	}
 
-    .cs-toc-icon {
-        color: #999; 
-        flex-shrink: 0; 
-        margin-top: 2px; 
-        transition: color 0.2s ease-in-out;
-    }
+	.cs-toc-icon {
+		color: #999;
+		flex-shrink: 0;
+		margin-top: 2px;
+		transition: color 0.2s ease-in-out;
+	}
 
-    @media only screen and (min-width: 64rem) {
-        .cs-toc-container { margin-bottom: 0; }
-    }
+	/* Dark Mode */
+	body.dark-mode {
+		.cs-toc-icon {
+			color: #a3a3a3;
+		}
 
-    /* Dark Mode */
-    body.dark-mode {
-        .cs-toc-icon { color: #a3a3a3; }
-        .cs-toc-link {
-            color: #f7f7f7;
+		.cs-toc-link {
+			color: #f7f7f7;
 			&.cs-toc-current {
-                .cs-toc-icon { color: var(--primaryLight); }
+				.cs-toc-icon {
+					color: var(--primaryLight);
+				}
 			}
-        }
-        
-        .cs-toc-link::before {
-            background-color: var(--primaryLight, #aed52b);
-        }
+		}
 
-        .cs-toc-item.depth-3 .cs-toc-text {
-            color: #888 !important; 
-        }
-        
-        .cs-toc-link:hover .cs-toc-text {
-            color: var(--primaryLight) !important;
-        }
-    }
+		.cs-toc-link::before {
+			background-color: var(--primaryLight, #3374a8);
+		}
+
+		.cs-toc-item.depth-3 .cs-toc-text {
+			color: #94a3b8 !important;
+		}
+
+		.cs-toc-link:hover .cs-toc-text {
+			color: var(--primaryLight) !important;
+		}
+	}
 </style>
 
 <script>
-	let observeHeaderTags: IntersectionObserver;
-	let allHeaderTags: NodeListOf<Element>;
+	let observeHeaderTags: IntersectionObserver | null = null;
 	let visibleHeadings = new Set<Element>();
 
 	function updateActiveLink() {
-		// 🌟 核心优化：直接抓取页面所有的 TOC 链接（同时覆盖手机端和桌面端）
 		const allSectionLinks = document.querySelectorAll(".cs-toc-link");
-		
 		if (visibleHeadings.size === 0 || allSectionLinks.length === 0) return;
 
-		let currentActive = null;
+		let currentActive: Element | null = null;
 		let maxTop = -Infinity;
-		const OFFSET = 170; 
+		const OFFSET = 170;
 
 		visibleHeadings.forEach((target) => {
 			const rect = target.getBoundingClientRect();
-			if (rect.top <= OFFSET) {
-				if (rect.top > maxTop) {
-					maxTop = rect.top;
-					currentActive = target;
-				}
+			if (rect.top <= OFFSET && rect.top > maxTop) {
+				maxTop = rect.top;
+				currentActive = target;
 			}
 		});
 
@@ -200,8 +201,6 @@ const getIconName = (text: string) => {
 
 		if (currentActive) {
 			const activeId = (currentActive as Element).id;
-			
-			// 🌟 核心优化：遍历所有链接，移除旧高亮，匹配当前标题则加上
 			allSectionLinks.forEach((link) => {
 				link.classList.remove("cs-toc-current");
 				if (link.getAttribute("href") === `#${activeId}`) {
@@ -223,34 +222,25 @@ const getIconName = (text: string) => {
 	}
 
 	function initTOC() {
-		// 🌟 核心优化：移除了设备判断，让手机端在长文阅读时也能生效
-		const wrappingElement = document.querySelector("#blog-content");
-		if (!wrappingElement) return;
-		
-		allHeaderTags = wrappingElement.querySelectorAll(":scope > h2, :scope > h3");
-		if (!allHeaderTags.length) return;
-		
-		visibleHeadings.clear(); 
-
 		if (observeHeaderTags) {
 			observeHeaderTags.disconnect();
+			observeHeaderTags = null;
 		}
+		visibleHeadings.clear();
 
-		let options = { 
-			root: null, 
-			rootMargin: "-160px 0px -50% 0px", 
-			threshold: 0 
-		};
-		
-		observeHeaderTags = new IntersectionObserver(setCurrent, options);
-		allHeaderTags.forEach((tag) => observeHeaderTags.observe(tag));
+		const wrappingElement = document.querySelector("#blog-content");
+		if (!wrappingElement) return;
+
+		const allHeaderTags = wrappingElement.querySelectorAll(":scope > h2, :scope > h3");
+		if (!allHeaderTags.length) return;
+
+		observeHeaderTags = new IntersectionObserver(setCurrent, {
+			root: null,
+			rootMargin: "-160px 0px -50% 0px",
+			threshold: 0,
+		});
+		allHeaderTags.forEach((tag) => observeHeaderTags!.observe(tag));
 	}
 
-	// 初始化
-	initTOC();
-	
-	// 兼容 Astro View Transitions（页面切换时重新绑定）
-	document.addEventListener("astro:after-swap", () => {
-		initTOC();
-	});
+	document.addEventListener("astro:page-load", initTOC);
 </script>

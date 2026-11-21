@@ -8,9 +8,9 @@ import { getLocalBusinessSchema } from "@js/localBusinessSchema.js";
 type HeroImage = GetImageResult | ImageMetadata;
 
 interface Props {
-	title?: string; // Override default title
-	description?: string; // Override default description
-	heroImage?: HeroImage | ImageMetadata; // Can be optimized hero OR raw ImageMetadata
+	title?: string;
+	description?: string;
+	heroImage?: HeroImage | ImageMetadata;
 }
 
 const { title = SITE.title, description = SITE.description, heroImage } = Astro.props;
@@ -21,14 +21,16 @@ const canonical = Astro.url.href;
 
 // Detect home page for special title formatting
 const isHomePage = Astro.url.pathname === "/";
+const brandName = BUSINESS.shortName || "XC Bath";
 
-// Format page title with business name (No longer includes location)
-const pageTitle = `${title} | ${BUSINESS.name}`;
+// 避免内页标题重复拼接两个 "XC Bath"
+const pageTitle = isHomePage
+	? `${title} | ${SITE.title}`
+	: title.toLowerCase().includes(brandName.toLowerCase())
+		? title
+		: `${title} | ${brandName}`;
 
-// OG type is hardcoded since it rarely changes
 const ogType = "website";
-
-// Use page-specific values for OG tags
 const ogTitle = pageTitle;
 const ogDescription = description;
 
@@ -36,12 +38,11 @@ const ogDescription = description;
 let socialImage: string;
 
 if (heroImage) {
-	// Check if it's already optimized (has .src property) or needs optimization
 	if ("src" in heroImage && typeof heroImage.src === "string") {
-		// Already optimized by page (GetImageResult or ContentImage)
-		socialImage = Astro.url.origin + heroImage.src;
+		socialImage = heroImage.src.startsWith("http")
+			? heroImage.src
+			: Astro.url.origin + heroImage.src;
 	} else {
-		// Raw ImageMetadata - optimize it for OG
 		const optimizedImage = await getImage({
 			src: heroImage as ImageMetadata,
 			width: 1200,
@@ -51,16 +52,14 @@ if (heroImage) {
 		socialImage = Astro.url.origin + optimizedImage.src;
 	}
 } else {
-	// Default social image (static file in public/)
 	socialImage = Astro.url.origin + OG.image;
 }
 ---
 
-<!-- LocalBusiness Schema (on ALL pages) - customize your JSON-LD structured data:
-     https://developers.google.com/search/docs/advanced/structured-data/intro-structured-data  -->
+<!-- LocalBusiness Schema (on ALL pages) -->
 <script is:inline type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
 
-<!-- Allow additional schemas from child layouts (e.g., BlogPosting for blog posts) -->
+<!-- Allow additional schemas from child layouts (e.g., BlogPosting / Product) -->
 <slot name="schema" />
 
 <!-- Page Title -->
@@ -84,7 +83,6 @@ if (heroImage) {
 <meta property="og:image" content={socialImage} />
 <meta content="1200" property="og:image:width" />
 <meta content="600" property="og:image:height" />
-<meta content="image/jpeg" property="og:image:type" />
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />

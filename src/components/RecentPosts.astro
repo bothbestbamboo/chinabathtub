@@ -1,16 +1,15 @@
 ---
-// 1. 引入 Astro 原生内容集合方法
 import { getCollection } from "astro:content";
+import { formatDate } from "@js/utils";
 
-// 2. 获取所有的博客文章，并按照日期倒序排列，最后只取前 3 篇
 const allPosts = await getCollection("blog");
 const recentPosts = allPosts
 	.sort((a, b) => {
 		const dateA = a.data.date ? new Date(a.data.date).valueOf() : 0;
 		const dateB = b.data.date ? new Date(b.data.date).valueOf() : 0;
-		return dateB - dateA; // 最新发布的排在最前
+		return dateB - dateA;
 	})
-	.slice(0, 3); // 只保留前 3 篇
+	.slice(0, 3);
 ---
 
 <section id="recent-blog">
@@ -19,14 +18,16 @@ const recentPosts = allPosts
 			<div class="header-left">
 				<h2>Insights From the Forefront of Bath Innovation</h2>
 			</div>
-			
+
 			<div class="header-right">
 				<div class="meta-row">
 					<span class="sub-title">INDUSTRY LEADERSHIP</span>
 					<a href="/news/" class="view-all-link">View insights ➔</a>
 				</div>
-				
-				<p>Explore our expert analysis on advanced manufacturing techniques, material innovations, and modern design trends that are shaping the future of premium bathtubs and shower enclosures.</p>
+
+				<p>
+					Explore our expert analysis on advanced manufacturing techniques, material innovations, and modern design trends that are shaping the future of premium bathtubs and shower enclosures.
+				</p>
 			</div>
 		</div>
 
@@ -35,36 +36,27 @@ const recentPosts = allPosts
 		<div class="blog-grid">
 			{
 				recentPosts.map((post) => {
-					// 格式化日期显示（例如：Jul 4, 2026）
-					const formattedDate = post.data.date 
-						? new Date(post.data.date).toLocaleDateString('en-US', {
-								month: 'short',
-								day: 'numeric',
-								year: 'numeric'
-						  })
-						: "";
-
-					// 安全获取图片路径
-					const imageSrc = post.data.image 
-						? (typeof post.data.image === 'object' ? post.data.image.src : post.data.image)
+					const formattedDate = post.data.date ? formatDate(post.data.date) : "";
+					const imageSrc = post.data.image
+						? typeof post.data.image === "object"
+							? post.data.image.src
+							: post.data.image
 						: "/assets/images/default-blog.jpg";
 
 					return (
 						<article class="blog-card">
 							<div class="image-wrapper">
 								<a href={`/news/${post.id}/`}>
-									<img 
-										src={imageSrc} 
-										alt={post.data.title}
+									<img
+										src={imageSrc}
+										alt={post.data.imageAlt || post.data.title}
 										loading="lazy"
+										decoding="async"
 									/>
 								</a>
 							</div>
-							
+
 							<div class="card-meta">
-								{post.data.tags && post.data.tags[0] && (
-									<span class="category-badge">{post.data.tags[0]}</span>
-								)}
 								<span class="post-date">{formattedDate}</span>
 							</div>
 
@@ -73,7 +65,7 @@ const recentPosts = allPosts
 							</h3>
 
 							<p class="card-description">
-								{post.data.description || post.body?.slice(0, 100) + "..."}
+								{post.data.description || (post.body ? post.body.slice(0, 100) + "..." : "")}
 							</p>
 
 							<a href={`/news/${post.id}/`} class="read-more-btn">
@@ -88,13 +80,10 @@ const recentPosts = allPosts
 </section>
 
 <style lang="less">
-	/* ==========================================================================
-	   容器与头部布局
-	   ========================================================================== */
 	#recent-blog {
 		padding: var(--sectionPadding, 80px 0);
 		background-color: #ffffff;
-		
+
 		.container {
 			width: 100%;
 			max-width: (1322/16em);
@@ -115,7 +104,7 @@ const recentPosts = allPosts
 	.header-left {
 		flex: 1;
 		min-width: (320/16rem);
-		
+
 		h2 {
 			font-size: ~"min(2.5rem, 6vw)";
 			font-weight: 800;
@@ -130,7 +119,7 @@ const recentPosts = allPosts
 		flex-grow: 1;
 		display: flex;
 		flex-direction: column;
-		
+
 		p {
 			font-size: (18/16rem);
 			line-height: 1.6;
@@ -163,9 +152,6 @@ const recentPosts = allPosts
 		margin: (40/16rem) 0;
 	}
 
-	/* ==========================================================================
-	   VIEW INSIGHTS 按钮
-	   ========================================================================== */
 	.view-all-link {
 		font-size: (16/16rem);
 		font-weight: 700;
@@ -173,28 +159,28 @@ const recentPosts = allPosts
 		letter-spacing: 0.05em;
 		text-decoration: none;
 		padding: (12/16rem) (24/16rem);
-		background-color: var(--primary, #004B87); /* 使用品牌色变量 */
+		background-color: var(--primary, #004B87);
 		color: #ffffff !important;
 		border-radius: 4px;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
 		gap: 6px;
-		position: relative; 
+		position: relative;
 		overflow: hidden;
-		z-index: 1;                  
+		z-index: 1;
 		transition: color 0.3s ease;
 	}
 
 	.view-all-link::before {
-		content: '';
+		content: "";
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
 		background-color: #111111;
-		z-index: -1;                 
+		z-index: -1;
 		transform: scaleX(0);
 		transform-origin: left;
 		border-radius: 4px;
@@ -203,7 +189,7 @@ const recentPosts = allPosts
 
 	@media (hover: hover) and (pointer: fine) {
 		.view-all-link:hover {
-			color: #ffffff !important;   
+			color: #ffffff !important;
 		}
 		.view-all-link:hover::before {
 			transform: scaleX(1);
@@ -220,9 +206,6 @@ const recentPosts = allPosts
 		}
 	}
 
-	/* ==========================================================================
-	   博客卡片网格与布局
-	   ========================================================================== */
 	.blog-grid {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax((320/16rem), 1fr));
@@ -232,15 +215,15 @@ const recentPosts = allPosts
 	.blog-card {
 		display: flex;
 		flex-direction: column;
-		background: transparent; /* 去掉白底，防止暗黑模式出现白块 */
-		
+		background: transparent;
+
 		.image-wrapper {
 			width: 100%;
 			aspect-ratio: 16 / 9;
 			overflow: hidden;
 			border-radius: 12px;
 			margin-bottom: (16/16rem);
-			
+
 			img {
 				width: 100%;
 				height: 100%;
@@ -248,7 +231,7 @@ const recentPosts = allPosts
 				transition: transform 0.3s ease;
 			}
 		}
-		
+
 		&:hover .image-wrapper img {
 			transform: scale(1.05);
 		}
@@ -261,13 +244,6 @@ const recentPosts = allPosts
 		margin-bottom: (8/16rem);
 		font-size: (14/16rem);
 		color: #666666;
-		
-		.category-badge {
-			background-color: #f3f4f6;
-			padding: (4/16rem) (8/16rem);
-			border-radius: 4px;
-			font-weight: 600;
-		}
 	}
 
 	.card-title {
@@ -275,18 +251,18 @@ const recentPosts = allPosts
 		-webkit-line-clamp: 1 !important;
 		-webkit-box-orient: vertical !important;
 		overflow: hidden !important;
-		font-size: (20/16rem);         
+		font-size: (20/16rem);
 		font-weight: 700;
 		margin: (10/16rem) 0;
 		line-height: 1.4;
-		
+
 		a {
 			display: inline !important;
 			color: #111111;
 			text-decoration: none;
 			transition: color 0.3s ease;
 			&:hover {
-				color: var(--primary, #004B87); /* 悬停改为品牌蓝 */
+				color: var(--primary, #004B87);
 			}
 		}
 	}
@@ -302,9 +278,6 @@ const recentPosts = allPosts
 		overflow: hidden;
 	}
 
-	/* ==========================================================================
-	   READ MORE 按钮
-	   ========================================================================== */
 	.read-more-btn {
 		font-size: (14/16rem);
 		font-weight: 700;
@@ -322,41 +295,37 @@ const recentPosts = allPosts
 		border-radius: 4px;
 		background-color: transparent;
 		transition: all 0.3s ease;
-		
+
 		&:hover {
 			background-color: #111111;
 			color: #ffffff;
 		}
 	}
 
-	/* ==========================================================================
-	   🌟 修复：暗黑模式全局适配
-	   ========================================================================== */
 	body.dark-mode {
 		#recent-blog {
-			background-color: transparent; /* 防止出现大块黑底，融入全局 */
-			
-			.header-left h2, 
-			.sub-title, 
-			.header-right p, 
+			background-color: transparent;
+
+			.header-left h2,
+			.sub-title,
+			.header-right p,
 			.card-title a,
 			.post-date {
 				color: #ffffff;
 			}
-			
+
+			.card-title a:hover {
+				color: var(--secondary, #C5A059);
+			}
+
 			.section-divider {
 				background-color: rgba(255, 255, 255, 0.1);
 			}
-			
-			.card-meta .category-badge {
-				background-color: var(--medium, #1a1a1a);
+
+			.card-description {
 				color: #cbd5e1;
 			}
-			
-			.card-description {
-				color: #cbd5e1; /* 修复：暗黑模式下描述文字变亮 */
-			}
-			
+
 			.read-more-btn {
 				color: #ffffff;
 				border-color: #ffffff;

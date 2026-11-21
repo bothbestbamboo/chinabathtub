@@ -14,6 +14,7 @@
 		align-items: center;
 		row-gap: (50/16em);
 	}
+
 	.blog-sidebar_widget-wrapper {
 		width: 100%;
 		padding: (20/16em) (16/16em);
@@ -51,43 +52,47 @@
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
-		column-gap: (16/16em); 
+		column-gap: (16/16em);
 
-		&:nth-of-type(1) { padding-top: 0; }
-		&:last-of-type { padding-bottom: 0; border: none; }
+		&:nth-of-type(1) {
+			padding-top: 0;
+		}
+		&:last-of-type {
+			padding-bottom: 0;
+			border: none;
+		}
 	}
 
-		.blog-sidebar_widget-image {
-		width: (80/16em) !important;   
-		height: (80/16em) !important;  
+	.blog-sidebar_widget-image {
+		width: (80/16em) !important;
+		height: (80/16em) !important;
 		min-width: (80/16em) !important;
 		min-height: (80/16em) !important;
-		border-radius: 6px !important; 
+		border-radius: 6px !important;
 		display: flex !important;
 		align-items: center !important;
 		justify-content: center !important;
 		position: relative !important;
 		overflow: hidden !important;
 		flex: none !important;
-		background-color: #f3f4f6 !important; 
+		background-color: #f3f4f6 !important;
 
 		img {
 			width: 100% !important;
 			height: 100% !important;
-			object-fit: cover !important; 
-			position: relative !important; 
+			object-fit: cover !important;
+			position: relative !important;
 			display: block !important;
 			margin: 0 !important;
 		}
 	}
 
-		.blog-sidebar_widget-h4 {
+	.blog-sidebar_widget-h4 {
 		font-size: (14/16rem);
 		font-weight: 700;
 		line-height: 1.5em;
 		text-decoration: none;
-		margin: 0;
-		margin-bottom: (4/16rem);
+		margin: 0 0 (4/16rem) 0;
 		color: var(--headerColor);
 		display: -webkit-box !important;
 		-webkit-line-clamp: 3 !important;
@@ -108,29 +113,44 @@
 	.blog-sidebar {
 		max-width: (360/16em);
 		position: sticky;
-		top: 10rem; /* 保持头部对齐 */
+		top: 10rem;
 	}
 
-    .blog-sidebar_widget-wrapper {
+	.blog-sidebar_widget-wrapper {
 		padding: (35/16em) (30/16em);
-		/* 🌟 核心修复：拉开下方卡片的间距，不再紧贴 */
-		margin-bottom: 2rem; 
+		margin-bottom: 2rem;
 	}
 
-    .blog-sidebar_widget-header {
-        margin-bottom: (30/16rem);
-    }
+	.blog-sidebar_widget-header {
+		margin-bottom: (30/16rem);
+	}
 }
 
 /* Dark Mode */
 @media only screen and (min-width: 0em) {
 	body.dark-mode {
+		.blog-sidebar_widget-wrapper {
+			border-color: rgba(255, 255, 255, 0.15);
+		}
+
+		.blog-sidebar_widget-link {
+			border-bottom-color: rgba(255, 255, 255, 0.12);
+		}
+
+		.blog-sidebar_widget-image {
+			background-color: #1e293b !important;
+		}
+
 		.blog-sidebar_widget-header {
 			color: var(--bodyTextColorWhite);
-	
+
 			&:after {
-				background: var(--primary);
+				background: var(--secondary);
 			}
+		}
+
+		.blog-sidebar_widget-h4 {
+			color: var(--bodyTextColorWhite);
 		}
 
 		.blog-sidebar_widget-date {
