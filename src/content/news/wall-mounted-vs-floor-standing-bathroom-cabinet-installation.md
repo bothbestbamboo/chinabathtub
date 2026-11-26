@@ -8,8 +8,6 @@ imageAlt: "Side-by-side comparison of wall-mounted and floor-standing bathroom c
 isFeatured: false
 ---
 
-# Wall-Mounted vs. Floor-Standing Bathroom Cabinet Installation: Which Is Easier?
-
 **Floor-standing bathroom cabinets are much easier to install than wall-mounted models for most homeowners and remodeling contractors.** Because a freestanding cabinet rests directly on the bathroom floor, the subfloor carries the full static weight of the wood box, stone countertop, ceramic basin, and water. Installation mostly comes down to sliding the unit into place, shimming the base level, anchoring the back rail to one or two existing wall studs, and hooking up the drain trap. Wall-mounted floating cabinets, by contrast, carry every pound through the wall framing itself, which typically means opening drywall, adding solid wood blocking between studs, and adjusting drain pipe heights inside the wall cavity.
 
 Choosing between these two styles affects far more than visual openness or mop clearance underneath the vanity. Whether you pick up a ready-to-assemble cabinet at Home Depot, browse stock vanities at Lowe's, or order an all-in-one quartz-top unit from Costco, installation difficulty determines your weekend timeline, tool list, and potential plumbing bill. Understanding how each cabinet transfers weight and connects to water lines will help you decide which setup matches your bathroom walls and DIY comfort level.
