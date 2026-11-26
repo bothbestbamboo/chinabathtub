@@ -88,6 +88,4 @@ Building codes set the absolute minimum entry opening at 22 inches, though most 
 
 You can install a shower under a sloped roof as long as the standing area directly beneath the showerhead maintains at least 80 inches of vertical height. Use the lower side beneath the slope for a tiled bench, recessed niche, or custom-angled fixed glass panel rather than a swinging door.
 
----
-
 Customizing shower room dimensions for an unconventional bathroom rewards patience during the planning and measuring phases. By respecting code minimums, verifying wall plumbness after tile installation, and matching your door style to the surrounding clearance zones, you can turn awkward angles and tight alcoves into a dry, durable, and genuinely comfortable daily space.
